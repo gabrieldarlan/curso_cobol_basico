@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. PROGCOB12.
+       PROGRAM-ID. PROGCOB14.
       ******************************************************************
       * AREA DE COMENTARIOS - REMARKS
       * AUTHOR = GABRIEL(BRQ) GABRIEL
@@ -14,13 +14,13 @@
        DATA DIVISION.
        WORKING-STORAGE                 SECTION.
       *================================================================*
-       77 FILLER                       PIC X(050) VALUE
+       77 FILLER                       PIC X(050)  VALUE
           'AREA PARA VARIAVIES AUXILIARES'.
       *================================================================*
       *
-       77  WRK-NOTA1                    PIC 9(002)     VALUE ZEROS.
-       77  WRK-NOTA2                    PIC 9(002)     VALUE ZEROS.
-       77  WRK-MEDIA                    PIC 9(004)V9   VALUE ZEROS.
+       77  WRK-NUMERO                  PIC 9(002)  VALUE ZEROS.
+       77  WRK-CONTADOR                PIC 9(002)  VALUE 1.
+       77  WRK-RESULT                  PIC 9(003)  VALUE ZEROS.
       *
        PROCEDURE DIVISION.
       *================================================================*
@@ -29,7 +29,9 @@
        0001-PRINCIPAL                  SECTION.
       *================================================================*
            PERFORM 0100-INICIALIZAR.
-           PERFORM 0200-PROCESSAR.
+           IF  WRK-NUMERO              GREATER ZEROS
+               PERFORM 0200-PROCESSAR
+           END-IF.
            PERFORM 0300-FINALIZAR.
       *================================================================*
        0001-99-FIM.                    EXIT.
@@ -40,8 +42,8 @@
       *================================================================*
        0100-INICIALIZAR                SECTION.
       *================================================================*
-           ACCEPT WRK-NOTA1.
-           ACCEPT WRK-NOTA2.
+           DISPLAY 'INSIRA UM NUMERO'.
+           ACCEPT WRK-NUMERO.
       *================================================================*
        0100-99-FIM.                    EXIT.
       *================================================================*
@@ -51,19 +53,12 @@
       *================================================================*
        0200-PROCESSAR                  SECTION.
       *================================================================*
-           COMPUTE WRK-MEDIA = (WRK-NOTA1+WRK-NOTA2) / 2.
-
-           DISPLAY 'MEDIA..: ' WRK-MEDIA.
-
-           IF  WRK-MEDIA               >= 6
-               DISPLAY 'APROVADO'
-           ELSE
-               IF  WRK-MEDIA           >= 2
-                   DISPLAY 'RECUPERACAO'
-               ELSE
-                   DISPLAY 'REPROVADO'
-               END-IF
-           END-IF.
+           DISPLAY 'TABUADA'.
+           PERFORM VARYING WRK-CONTADOR FROM 1 BY 1
+                     UNTIL WRK-CONTADOR GREATER 10
+               MULTIPLY WRK-NUMERO     BY WRK-CONTADOR GIVING WRK-RESULT
+               DISPLAY WRK-NUMERO ' X ' WRK-CONTADOR ' = ' WRK-RESULT
+           END-PERFORM.
       *================================================================*
        0200-99-FIM.                    EXIT.
       *================================================================*

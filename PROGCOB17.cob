@@ -1,9 +1,9 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. PROGCOB12.
+       PROGRAM-ID. PROGCOB17.
       ******************************************************************
       * AREA DE COMENTARIOS - REMARKS
       * AUTHOR = GABRIEL(BRQ) GABRIEL
-      * OBJETIVO: RECEBER 02 NOTAS, MEDIA E IMPRIMIR
+      * OBJETIVO: USAR REDEFINES
       * COM PARAGRAFO
       * DATA = XX/XX/XXXX
       ******************************************************************
@@ -14,13 +14,30 @@
        DATA DIVISION.
        WORKING-STORAGE                 SECTION.
       *================================================================*
-       77 FILLER                       PIC X(050) VALUE
+       77 FILLER                       PIC X(050)  VALUE
           'AREA PARA VARIAVIES AUXILIARES'.
       *================================================================*
       *
-       77  WRK-NOTA1                    PIC 9(002)     VALUE ZEROS.
-       77  WRK-NOTA2                    PIC 9(002)     VALUE ZEROS.
-       77  WRK-MEDIA                    PIC 9(004)V9   VALUE ZEROS.
+       01  WRK-MESES-EXTENSO.
+           02 FILLER                   PIC X(003) VALUE 'JAN'.
+           02 FILLER                   PIC X(003) VALUE 'FEV'.
+           02 FILLER                   PIC X(003) VALUE 'MAR'.
+           02 FILLER                   PIC X(003) VALUE 'ABR'.
+           02 FILLER                   PIC X(003) VALUE 'MAI'.
+           02 FILLER                   PIC X(003) VALUE 'JUN'.
+           02 FILLER                   PIC X(003) VALUE 'JUL'.
+           02 FILLER                   PIC X(003) VALUE 'AGO'.
+           02 FILLER                   PIC X(003) VALUE 'SET'.
+           02 FILLER                   PIC X(003) VALUE 'OUT'.
+           02 FILLER                   PIC X(003) VALUE 'NOV'.
+           02 FILLER                   PIC X(003) VALUE 'DEZ'.
+       01  WRK-MESES                   REDEFINES WRK-MESES-EXTENSO.
+           02  WRK-MES                 PIC X(003) OCCURS 12 TIMES.
+      *
+       01 WRK-DATA.
+           05 WRK-ANO-SYS              PIC 9(04) VALUE ZEROS.
+           05 WRK-MES-SYS              PIC 9(02) VALUE ZEROS.
+           05 WRK-DIA-SYS              PIC 9(02) VALUE ZEROS.
       *
        PROCEDURE DIVISION.
       *================================================================*
@@ -40,8 +57,10 @@
       *================================================================*
        0100-INICIALIZAR                SECTION.
       *================================================================*
-           ACCEPT WRK-NOTA1.
-           ACCEPT WRK-NOTA2.
+
+           ACCEPT WRK-DATA             FROM DATE YYYYMMDD.
+           DISPLAY 'DIA ' WRK-DIA-SYS ' DE ' WRK-MES(WRK-MES-SYS)
+           ' DE ' WRK-ANO-SYS.
       *================================================================*
        0100-99-FIM.                    EXIT.
       *================================================================*
@@ -51,19 +70,7 @@
       *================================================================*
        0200-PROCESSAR                  SECTION.
       *================================================================*
-           COMPUTE WRK-MEDIA = (WRK-NOTA1+WRK-NOTA2) / 2.
 
-           DISPLAY 'MEDIA..: ' WRK-MEDIA.
-
-           IF  WRK-MEDIA               >= 6
-               DISPLAY 'APROVADO'
-           ELSE
-               IF  WRK-MEDIA           >= 2
-                   DISPLAY 'RECUPERACAO'
-               ELSE
-                   DISPLAY 'REPROVADO'
-               END-IF
-           END-IF.
       *================================================================*
        0200-99-FIM.                    EXIT.
       *================================================================*
@@ -78,3 +85,5 @@
       *================================================================*
        0300-99-FIM.                    EXIT.
       *================================================================*
+      *================================================================*
+      *

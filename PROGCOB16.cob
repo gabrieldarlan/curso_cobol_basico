@@ -1,9 +1,9 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. PROGCOB12.
+       PROGRAM-ID. PROGCOB16.
       ******************************************************************
       * AREA DE COMENTARIOS - REMARKS
       * AUTHOR = GABRIEL(BRQ) GABRIEL
-      * OBJETIVO: RECEBER 02 NOTAS, MEDIA E IMPRIMIR
+      * OBJETIVO: USAR VARIAVEL TIPO TABELA
       * COM PARAGRAFO
       * DATA = XX/XX/XXXX
       ******************************************************************
@@ -14,14 +14,19 @@
        DATA DIVISION.
        WORKING-STORAGE                 SECTION.
       *================================================================*
-       77 FILLER                       PIC X(050) VALUE
+       77 FILLER                       PIC X(050)  VALUE
           'AREA PARA VARIAVIES AUXILIARES'.
       *================================================================*
       *
-       77  WRK-NOTA1                    PIC 9(002)     VALUE ZEROS.
-       77  WRK-NOTA2                    PIC 9(002)     VALUE ZEROS.
-       77  WRK-MEDIA                    PIC 9(004)V9   VALUE ZEROS.
+       01  WRK-MESES.
+           03  WRK-MES                 PIC X(009) OCCURS 12 TIMES.
       *
+       01 WRK-DATA.
+           05 WRK-ANO-SYS              PIC 9(04) VALUE ZEROS.
+           05 WRK-MES-SYS              PIC 9(02) VALUE ZEROS.
+           05 WRK-DIA-SYS              PIC 9(02) VALUE ZEROS.
+      *
+
        PROCEDURE DIVISION.
       *================================================================*
       *    AREA PRINCIPAL DO PROGRAMA
@@ -40,8 +45,11 @@
       *================================================================*
        0100-INICIALIZAR                SECTION.
       *================================================================*
-           ACCEPT WRK-NOTA1.
-           ACCEPT WRK-NOTA2.
+
+           PERFORM 0400-MONTA-MES.
+           ACCEPT WRK-DATA             FROM DATE YYYYMMDD.
+           DISPLAY 'DIA ' WRK-DIA-SYS ' DE ' WRK-MES(WRK-MES-SYS)
+           ' DE ' WRK-ANO-SYS.
       *================================================================*
        0100-99-FIM.                    EXIT.
       *================================================================*
@@ -51,19 +59,7 @@
       *================================================================*
        0200-PROCESSAR                  SECTION.
       *================================================================*
-           COMPUTE WRK-MEDIA = (WRK-NOTA1+WRK-NOTA2) / 2.
 
-           DISPLAY 'MEDIA..: ' WRK-MEDIA.
-
-           IF  WRK-MEDIA               >= 6
-               DISPLAY 'APROVADO'
-           ELSE
-               IF  WRK-MEDIA           >= 2
-                   DISPLAY 'RECUPERACAO'
-               ELSE
-                   DISPLAY 'REPROVADO'
-               END-IF
-           END-IF.
       *================================================================*
        0200-99-FIM.                    EXIT.
       *================================================================*
@@ -77,4 +73,24 @@
            STOP RUN.
       *================================================================*
        0300-99-FIM.                    EXIT.
+      *================================================================*
+      *================================================================*
+      *
+      *================================================================*
+       0400-MONTA-MES                  SECTION.
+      *================================================================*
+           MOVE 'JANEIRO'              TO WRK-MES(01).
+           MOVE 'FEVEREIRO'            TO WRK-MES(02).
+           MOVE 'MARCO'                TO WRK-MES(03).
+           MOVE 'ABRIL'                TO WRK-MES(04).
+           MOVE 'MAIO'                 TO WRK-MES(05).
+           MOVE 'JUNHO'                TO WRK-MES(06).
+           MOVE 'JULHO'                TO WRK-MES(07).
+           MOVE 'AGOSTO'               TO WRK-MES(08).
+           MOVE 'SETEMBRO'             TO WRK-MES(09).
+           MOVE 'OUTUBRO'              TO WRK-MES(10).
+           MOVE 'NOVEMBRO'             TO WRK-MES(11).
+           MOVE 'DEZEMBRO'             TO WRK-MES(12).
+      *================================================================*
+       0400-99-FIM.                    EXIT.
       *================================================================*

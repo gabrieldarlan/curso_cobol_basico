@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. PROGCOB09.
+       PROGRAM-ID. PROGCOB11.
       ******************************************************************
       * AREA DE COMENTARIOS - REMARKS
       * AUTHOR = GABRIEL(BRQ) GABRIEL

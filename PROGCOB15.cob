@@ -1,9 +1,9 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. PROGCOB12.
+       PROGRAM-ID. PROGCOB15.
       ******************************************************************
       * AREA DE COMENTARIOS - REMARKS
       * AUTHOR = GABRIEL(BRQ) GABRIEL
-      * OBJETIVO: RECEBER 02 NOTAS, MEDIA E IMPRIMIR
+      * OBJETIVO: FAZER UM LAÇO COM UNTIL
       * COM PARAGRAFO
       * DATA = XX/XX/XXXX
       ******************************************************************
@@ -14,13 +14,11 @@
        DATA DIVISION.
        WORKING-STORAGE                 SECTION.
       *================================================================*
-       77 FILLER                       PIC X(050) VALUE
+       77 FILLER                       PIC X(050)  VALUE
           'AREA PARA VARIAVIES AUXILIARES'.
       *================================================================*
       *
-       77  WRK-NOTA1                    PIC 9(002)     VALUE ZEROS.
-       77  WRK-NOTA2                    PIC 9(002)     VALUE ZEROS.
-       77  WRK-MEDIA                    PIC 9(004)V9   VALUE ZEROS.
+           COPY 'BOOK.COB'.
       *
        PROCEDURE DIVISION.
       *================================================================*
@@ -29,7 +27,9 @@
        0001-PRINCIPAL                  SECTION.
       *================================================================*
            PERFORM 0100-INICIALIZAR.
-           PERFORM 0200-PROCESSAR.
+           IF  WRK-VENDAS              GREATER ZEROS
+               PERFORM 0200-PROCESSAR  UNTIL WRK-VENDAS EQUAL ZEROS
+           END-IF.
            PERFORM 0300-FINALIZAR.
       *================================================================*
        0001-99-FIM.                    EXIT.
@@ -40,8 +40,8 @@
       *================================================================*
        0100-INICIALIZAR                SECTION.
       *================================================================*
-           ACCEPT WRK-NOTA1.
-           ACCEPT WRK-NOTA2.
+           DISPLAY 'INSIRA O VALOR DA VENDA'.
+           ACCEPT WRK-VENDAS.
       *================================================================*
        0100-99-FIM.                    EXIT.
       *================================================================*
@@ -51,19 +51,10 @@
       *================================================================*
        0200-PROCESSAR                  SECTION.
       *================================================================*
-           COMPUTE WRK-MEDIA = (WRK-NOTA1+WRK-NOTA2) / 2.
-
-           DISPLAY 'MEDIA..: ' WRK-MEDIA.
-
-           IF  WRK-MEDIA               >= 6
-               DISPLAY 'APROVADO'
-           ELSE
-               IF  WRK-MEDIA           >= 2
-                   DISPLAY 'RECUPERACAO'
-               ELSE
-                   DISPLAY 'REPROVADO'
-               END-IF
-           END-IF.
+           ADD 1                       TO WRK-QTD.
+           ADD WRK-VENDAS              TO WRK-ACUMULADOR-VENDAS.
+           DISPLAY 'INSIRA O VALOR DA VENDA'.
+           ACCEPT WRK-VENDAS.
       *================================================================*
        0200-99-FIM.                    EXIT.
       *================================================================*
@@ -73,7 +64,13 @@
       *================================================================*
        0300-FINALIZAR                  SECTION.
       *================================================================*
+           DISPLAY '*****************TOTAIS************************'
+           DISPLAY 'QUANTIDE DE VENDAS.........:'WRK-QTD.
+           DISPLAY 'VALOR DO TOTAL VENDAS......:'WRK-ACUMULADOR-VENDAS
+           DISPLAY '***********************************************'
+
            DISPLAY 'FIM DO PROCESSAMENTO DO PROGRAMA'.
+
            STOP RUN.
       *================================================================*
        0300-99-FIM.                    EXIT.
